@@ -1,11 +1,11 @@
 # === STAGE DE BUILD: Compilação da aplicação ===
-# Usa uma imagem oficial do Maven e OpenJDK que é válida no Docker Hub.
+# Usa uma imagem oficial do Maven com o OpenJDK 17 que é válida no Docker Hub.
 FROM maven:3.9-eclipse-temurin-17 AS build
 
 # Define o diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos de build do Maven
+# Copia os arquivos de build do Maven para o contêiner
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 COPY src ./src
