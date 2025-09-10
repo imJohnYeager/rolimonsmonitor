@@ -1,6 +1,6 @@
 # === STAGE DE BUILD: Compilação da aplicação ===
-# Usa uma imagem oficial do Maven e OpenJDK para compilar a aplicação
-FROM maven:3.9.6-openjdk-17-slim AS build
+# Usa uma imagem oficial do Maven e OpenJDK com a tag bullseye para compilar.
+FROM maven:3.9.6-openjdk-17-slim-bullseye AS build
 
 # Define o diretório de trabalho
 WORKDIR /app
@@ -13,8 +13,8 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # === STAGE DE EXECUÇÃO: Ambiente de produção ===
-# Usa uma imagem mais leve do OpenJDK para o ambiente de execução
-FROM openjdk:17-jre-slim
+# Usa uma imagem mais leve do OpenJDK JRE com a tag bullseye para o ambiente de execução.
+FROM openjdk:17-jre-slim-bullseye
 
 # Define o diretório de trabalho
 WORKDIR /app
@@ -59,10 +59,10 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copia o arquivo JAR da etapa de build para o diretório de execução
+# Copia o arquivo JAR da etapa de build.
 COPY --from=build /app/target/rolimonsmonitor-0.0.1-SNAPSHOT.jar .
 
-# Define o ponto de entrada da aplicação, executando o JAR
+# Define o ponto de entrada da aplicação.
 # As opções --no-sandbox e --disable-dev-shm-usage são importantes
 # para que o Chrome funcione corretamente em um ambiente de contêiner.
 ENV JAVA_TOOL_OPTIONS="-Dwebdriver.chrome.whitelistedIps= -Dwebdriver.chrome.args=--no-sandbox,--disable-dev-shm-usage"
