@@ -1,0 +1,4 @@
+package com.johnyeager.rtrading.rolimonsmonitor.model;
+
+public class StartupMessageBuilder {
+}

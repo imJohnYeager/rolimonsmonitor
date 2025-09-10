@@ -1,0 +1,23 @@
+package com.johnyeager.rtrading.rolimonsmonitor.util;
+
+
+import lombok.Getter;
+
+public class Anuncio { // autoexplicativo
+
+    private int value;
+    private int rap;
+
+    public Anuncio(int value, int rap) {
+        this.value = value;
+        this.rap = rap;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getRap() {
+        return rap;
+    }
+}

@@ -1,0 +1,68 @@
+package com.johnyeager.rtrading.rolimonsmonitor.services;
+
+import com.johnyeager.rtrading.rolimonsmonitor.model.DiscordNotifier;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+
+@Service
+public class RolimonsService {
+
+    private final Set<String> anunciados = new HashSet<>();
+
+    // Defina os critérios que você quer monitorar
+    private final Map<String, Integer> criterios = new HashMap<>() {{
+        put("Value", 1);
+        put("RAP", 1);
+    }};
+
+    @Scheduled(fixedRate = 30000)
+    public void verificarAnuncios() {
+        System.out.println("Executando verificação...");
+        try {
+            String url = "https://www.rolimons.com/trades";
+            Document doc = Jsoup.connect(url).get();
+            System.out.println("Conectou ao site!");
+
+            Elements anunciosHtml = doc.select("div.ad_side_details");
+            System.out.println("Encontrados " + anunciosHtml.size() + " anúncios");
+
+            for (Element anuncio : anunciosHtml) {
+                Elements titles = anuncio.select(".stat_title");
+                Elements values = anuncio.select(".stat_value");
+
+                for (int i = 0; i < titles.size(); i++) {
+                    String title = titles.get(i).text();
+                    System.out.println("Título encontrado: " + title);
+                    String val = values.get(i).text().replace(",", "").trim();
+                    System.out.println("valores encontrados: " + val);
+
+                    if (criterios.containsKey(title)) {
+                        int numericValue = Integer.parseInt(val);
+                        if (numericValue >= criterios.get(title)) {
+                            String key = title + "-" + numericValue;
+                            if (!anunciados.contains(key)) {
+                                DiscordNotifier.sendMessage(
+                                        "🎉 Critério atendido! " + title + ": " + numericValue
+                                );
+                                anunciados.add(key);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível ler o valor: ");
+            DiscordNotifier.sendMessage("Não foi possível ler o valor: ");
+        }
+    }
+}
