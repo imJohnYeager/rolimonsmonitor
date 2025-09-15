@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class DiscordNotifier {
 
-    private static final String WEBHOOK_URL = "https://discord.com/api/webhooks/1408937106214227969/KP21of07hOuADfEuwYsjaTkOwjQyXg6eegRpsXCL9x9HuHqn8wmZB1wF6Xe95IFDO43n";
+    private static final String WEBHOOK_URL = "SEU_WEBHOOK";
 
     public static void sendMessage(String content) {
         try {

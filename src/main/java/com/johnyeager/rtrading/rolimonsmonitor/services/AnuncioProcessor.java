@@ -29,7 +29,7 @@ public class AnuncioProcessor {
             "tradetagprojecteds", "Projecteds"
     );
 
-    // Adicionamos um Set para armazenar os IDs dos anúncios já processados
+    // Adicionei um Set para armazenar os IDs dos anúncios já processados
     private final Set<String> anunciosProcessados = new HashSet<>();
 
     public Anuncio processarAnuncio(WebElement elementoAnuncio, FiltrosAnuncio filtros) {

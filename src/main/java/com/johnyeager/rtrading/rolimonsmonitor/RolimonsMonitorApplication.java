@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling // permite agendamento de tarefas
+@EnableScheduling
 public class RolimonsMonitorApplication {
 
     public static void main(String[] args) {

@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class StartupMessageBuilder {
 
-    // Map para nomes legíveis das tags
     private static final Map<String, String> TAG_NAMES = Map.of(
             "any", "Any",
             "demand", "Demand",
@@ -25,7 +24,6 @@ public class StartupMessageBuilder {
         msg.append("💰 Range de Value: ").append(filtros.getMinValue())
                 .append(" - ").append(filtros.getMaxValue()).append("\\n");
 
-        // Pega apenas as tags aceitas (true)
         List<String> acceptedTags = new ArrayList<>();
         for (Map.Entry<String, Boolean> entry : filtros.getTags().entrySet()) {
             if (Boolean.TRUE.equals(entry.getValue())) {
